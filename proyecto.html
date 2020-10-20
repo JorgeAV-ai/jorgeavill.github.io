@@ -332,6 +332,26 @@
                 boxMeshes.push(cilindro);
 
 
+            var size = 1;
+            // var convexShape = createBoxPolyhedron(size);
+            var box = new CANNON.Box(new CANNON.Vec3(size,size,size));
+            convexShape = box.convexPolyhedronRepresentation;
+            var mass = 10;
+            for(var i=0; i<3; i++){
+            for(var j=0; j<3; j++){
+                var cajageom = new THREE.BoxGeometry(size*2,size*2,size*2);
+                var caja = new THREE.Mesh(cajageom,material);
+                var boxbody = new CANNON.Body({ mass: 1 });
+                boxbody.addShape(convexShape);
+                boxbody.position.set(10+2*size*i+0.01,2*size*j + size*1.2,-10);
+                world.add(boxbody);
+                scene.add(caja);
+                boxes.push(boxbody);
+                boxMeshes.push(caja);
+          }
+          }
+
+
             }
 
             function animacionMostro(){
