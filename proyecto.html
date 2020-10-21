@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>cannon.js + three.js physics shooter</title>
+        <title>Proyecto Final GPC</title>
         <style>
             html, body {
                 width: 100%;
@@ -58,8 +58,6 @@
         </style>
     </head>
     <body>
-        <!-- <script src="../libs/Three.js"></script>
-        <script src="../build/cannon.js"></script>--->
         <script src="lib/PointerLockControls.js"></script>
         <script src="lib/three.min_r96.js"></script>
         <script src="lib/cannon_062.js"></script>
@@ -69,9 +67,9 @@
         <div id="blocker">
 
             <div id="instructions">
-                <span style="font-size:40px">Click to play</span>
+                <span style="font-size:40px">Destruye todo lo que puedas</span>
                 <br />
-                (W,A,S,D = Move, SPACE = Jump, MOUSE = Look, CLICK = Shoot)
+                (W,A,S,D = Moverse, Espacio = saltar, Ratón = mover cámara, Click = Disparas)
             </div>
 
         </div>
@@ -239,7 +237,7 @@
                     light.castShadow = true;
 
                     light.shadowCameraNear = 20;
-                    light.shadowCameraFar = 50;//camera.far;
+                    light.shadowCameraFar = 50; //camera.far;
                     light.shadowCameraFov = 40;
 
                     light.shadowMapBias = 0.1;
@@ -281,11 +279,11 @@
                 mostrar = new THREE.Object3D();
                 
                 if(rand > 4){
-                    var geometry = new THREE.BoxGeometry( 0.25,0.25, 0.25 );
+                    var geometry = new THREE.BoxGeometry( 0.1,0.1, 0.1 );
                     var material = new THREE.MeshBasicMaterial( {color: 0xfffff} );
                     
                 }else{
-                    var geometry = new THREE.SphereGeometry(0.25, 20, 20 );
+                    var geometry = new THREE.SphereGeometry(0.1, 20, 20 );
                     var material = new THREE.MeshBasicMaterial( {color: 0xfffff} );
                 }
                 mostro = new THREE.Mesh( geometry, material );
@@ -332,30 +330,117 @@
                 boxMeshes.push(cilindro);
 
 
-            var size = 1;
-            // var convexShape = createBoxPolyhedron(size);
-            var box = new CANNON.Box(new CANNON.Vec3(size,size,size));
-            convexShape = box.convexPolyhedronRepresentation;
-            var mass = 10;
-            for(var i=0; i<3; i++){
-            for(var j=0; j<3; j++){
-                var cajageom = new THREE.BoxGeometry(size*2,size*2,size*2);
-                var caja = new THREE.Mesh(cajageom,material);
-                var boxbody = new CANNON.Body({ mass: 1 });
-                boxbody.addShape(convexShape);
-                boxbody.position.set(10+2*size*i+0.01,2*size*j + size*1.2,-10);
-                world.add(boxbody);
-                scene.add(caja);
-                boxes.push(boxbody);
-                boxMeshes.push(caja);
-          }
-          }
+                var size = 1;
+                // var convexShape = createBoxPolyhedron(size);
+                var box = new CANNON.Box(new CANNON.Vec3(size,size,size));
+                convexShape = box.convexPolyhedronRepresentation;
+                var mass = 10;
+                for(var i=0; i<3; i++){
+                for(var j=0; j<3; j++){
+                    var cajageom = new THREE.BoxGeometry(size*2,size*2,size*2);
+                    var caja = new THREE.Mesh(cajageom,material);
+                    var boxbody = new CANNON.Body({ mass: 1 });
+                    boxbody.addShape(convexShape);
+                    boxbody.position.set(10+2*size*i+0.01,2*size*j + size*1.2,-10);
+                    world.add(boxbody);
+                    scene.add(caja);
+                    boxes.push(boxbody);
+                    boxMeshes.push(caja);
+                }
+                }
+
+
+                //Walls
+                tamaño = new CANNON.Vec3(3,10,3);
+                mate = new THREE.MeshLambertMaterial( { color: 0xddd } );
+                for(var i = 0; i < 14;i++){
+                var boxForma = new CANNON.Box(tamaño);
+                var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
+                var x = -40 + i*6;
+                var y = 10;
+                var z = -40;
+                var boxCuerpo = new CANNON.Body({ mass: 1 });
+                var boxMalla = new THREE.Mesh( boxGeom, mate );
+                world.add(boxCuerpo);
+                scene.add(boxMalla);
+                boxCuerpo.position.set(x,y,z);
+                boxMalla.position.set(x,y,z);
+                boxMalla.castShadow = true;
+                boxMalla.receiveShadow = true;
+                boxCuerpo.addShape(boxForma);
+                boxes.push(boxCuerpo);
+                boxMeshes.push(boxMalla);
+                }
+
+                for(var i = 0; i < 16;i++){
+                var boxForma = new CANNON.Box(tamaño);
+                var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
+                var x = -46 ;
+                var y = 10;
+                var z = -34 + i*6;
+                var boxCuerpo = new CANNON.Body({ mass: 1 });
+                var boxMalla = new THREE.Mesh( boxGeom, mate );
+                boxCuerpo.quaternion.setFromEuler(0,-90*Math.PI/180,0);
+                boxMalla.rotation.y = -90*Math.PI/ 180;
+                world.add(boxCuerpo);
+                scene.add(boxMalla);
+                boxCuerpo.position.set(x,y,z);
+                boxMalla.position.set(x,y,z);
+                boxMalla.castShadow = true;
+                boxMalla.receiveShadow = true;
+                boxCuerpo.addShape(boxForma);
+                boxes.push(boxCuerpo);
+                boxMeshes.push(boxMalla);
+                }
+                
+                for(var i = 0; i < 16;i++){
+                var boxForma = new CANNON.Box(tamaño);
+                var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
+                var x = 44;
+                var y = 10;
+                var z = -40 + i*6;
+                var boxCuerpo = new CANNON.Body({ mass: 1 });
+                var boxMalla = new THREE.Mesh( boxGeom, mate );
+                world.add(boxCuerpo);
+                scene.add(boxMalla);
+                boxCuerpo.position.set(x,y,z);
+                boxMalla.position.set(x,y,z);
+                boxMalla.castShadow = true;
+                boxMalla.receiveShadow = true;
+                boxCuerpo.addShape(boxForma);
+                boxes.push(boxCuerpo);
+                boxMeshes.push(boxMalla);
+                }
+                
+                for(var i = 0; i < 14;i++){
+                    
+                    var boxForma = new CANNON.Box(tamaño);
+                    var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
+                    var x = -40 + i*6;
+                    var y = 10;
+                    var z = 35 ;
+                    var boxCuerpo = new CANNON.Body({ mass: 1 });
+                    var boxMalla = new THREE.Mesh( boxGeom, mate );
+                    boxCuerpo.quaternion.setFromEuler(0,-90*Math.PI/180,0);
+                    boxMalla.rotation.y = -90*Math.PI/ 180;
+                    world.add(boxCuerpo);
+                    scene.add(boxMalla);
+                    boxCuerpo.position.set(x,y,z);
+                    boxMalla.position.set(x,y,z);
+                    boxMalla.castShadow = true;
+                    boxMalla.receiveShadow = true;
+                    boxCuerpo.addShape(boxForma);
+                    boxes.push(boxCuerpo);
+                    boxMeshes.push(boxMalla);
+                    }
+
+
 
 
             }
 
             function animacionMostro(){
-                var vec = new THREE.Vector3( 0, 0.5, -3 );
+                var vec = new THREE.Vector3( 0, -1, -1 );
                 var value = controls.getPosition()
                 vec.x += value.x;
                 vec.y += value.y;
@@ -363,7 +448,7 @@
                 mostro.position.copy( vec );
                 mostro.rotation.y += Math.PI/15  * 0.1;
                 theta += 0.01;
-                mostro.position.y += 0.75 * Math.PI / 2 + ( Math.abs(Math.sin(theta))) ;
+                mostro.position.y += Math.PI / 2 + ( Math.abs(Math.sin(theta))) ;
             }
 
             function onWindowResize() {
