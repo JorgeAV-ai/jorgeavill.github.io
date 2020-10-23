@@ -67,9 +67,9 @@
         <div id="blocker">
 
             <div id="instructions">
-                <span style="font-size:40px">Destruye todo lo que puedas</span>
+                <span style="font-size:40px">Derrumbar todo lo que puedas</span>
                 <br />
-                (W,A,S,D = Moverse, Espacio = saltar, Ratón = mover cámara, Click = Disparas)
+                (W,A,S,D = Moverse, Espacio = saltar, Ratón = mover cámara, Click = Disparar)
             </div>
 
         </div>
@@ -286,6 +286,7 @@
                     var geometry = new THREE.SphereGeometry(0.1, 20, 20 );
                     var material = new THREE.MeshBasicMaterial( {color: 0xfffff} );
                 }
+
                 mostro = new THREE.Mesh( geometry, material );
                 mostrar.add(mostro);
                 scene.add(mostrar);
@@ -351,14 +352,13 @@
 
 
                 //Walls
-                tamaño = new CANNON.Vec3(3,10,3);
-                mate = new THREE.MeshLambertMaterial( { color: 0xddd } );
-                for(var i = 0; i < 14;i++){
+                tamaño = new CANNON.Vec3(30,7,3);
+                mate = new THREE.MeshLambertMaterial( { color: 0xddd } ); 
                 var boxForma = new CANNON.Box(tamaño);
                 var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
-                var x = -40 + i*6;
+                var x = 0;
                 var y = 10;
-                var z = -40;
+                var z = -20;
                 var boxCuerpo = new CANNON.Body({ mass: 1 });
                 var boxMalla = new THREE.Mesh( boxGeom, mate );
                 world.add(boxCuerpo);
@@ -370,14 +370,10 @@
                 boxCuerpo.addShape(boxForma);
                 boxes.push(boxCuerpo);
                 boxMeshes.push(boxMalla);
-                }
-
-                for(var i = 0; i < 16;i++){
-                var boxForma = new CANNON.Box(tamaño);
-                var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
-                var x = -46 ;
+                
+                var x = -32;
                 var y = 10;
-                var z = -34 + i*6;
+                var z = 13;
                 var boxCuerpo = new CANNON.Body({ mass: 1 });
                 var boxMalla = new THREE.Mesh( boxGeom, mate );
                 boxCuerpo.quaternion.setFromEuler(0,-90*Math.PI/180,0);
@@ -391,14 +387,32 @@
                 boxCuerpo.addShape(boxForma);
                 boxes.push(boxCuerpo);
                 boxMeshes.push(boxMalla);
-                }
-                
-                for(var i = 0; i < 16;i++){
+
+
+                var x = 32;
+                var y = 10;
+                var z = 13;
+                var boxCuerpo = new CANNON.Body({ mass: 1 });
+                var boxMalla = new THREE.Mesh( boxGeom, mate );
+                boxCuerpo.quaternion.setFromEuler(0,-90*Math.PI/180,0);
+                boxMalla.rotation.y = -90*Math.PI/ 180;
+                world.add(boxCuerpo);
+                scene.add(boxMalla);
+                boxCuerpo.position.set(x,y,z);
+                boxMalla.position.set(x,y,z);
+                boxMalla.castShadow = true;
+                boxMalla.receiveShadow = true;
+                boxCuerpo.addShape(boxForma);
+                boxes.push(boxCuerpo);
+                boxMeshes.push(boxMalla);
+
+
+                tamaño = new CANNON.Vec3(29,7,3);
                 var boxForma = new CANNON.Box(tamaño);
                 var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
-                var x = 44;
+                var x = 0;
                 var y = 10;
-                var z = -40 + i*6;
+                var z = 20;
                 var boxCuerpo = new CANNON.Body({ mass: 1 });
                 var boxMalla = new THREE.Mesh( boxGeom, mate );
                 world.add(boxCuerpo);
@@ -410,29 +424,73 @@
                 boxCuerpo.addShape(boxForma);
                 boxes.push(boxCuerpo);
                 boxMeshes.push(boxMalla);
-                }
                 
-                for(var i = 0; i < 14;i++){
-                    
-                    var boxForma = new CANNON.Box(tamaño);
-                    var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
-                    var x = -40 + i*6;
-                    var y = 10;
-                    var z = 35 ;
-                    var boxCuerpo = new CANNON.Body({ mass: 1 });
-                    var boxMalla = new THREE.Mesh( boxGeom, mate );
-                    boxCuerpo.quaternion.setFromEuler(0,-90*Math.PI/180,0);
-                    boxMalla.rotation.y = -90*Math.PI/ 180;
-                    world.add(boxCuerpo);
-                    scene.add(boxMalla);
-                    boxCuerpo.position.set(x,y,z);
-                    boxMalla.position.set(x,y,z);
-                    boxMalla.castShadow = true;
-                    boxMalla.receiveShadow = true;
-                    boxCuerpo.addShape(boxForma);
-                    boxes.push(boxCuerpo);
-                    boxMeshes.push(boxMalla);
-                    }
+                
+                //TV + movie
+                // tamaño = new CANNON.Vec3(15/2,256/632*15/2,1/2);
+                // var TeleForma = new CANNON.Box(tamaño);
+                // var TeleGeometria = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
+                // var x = 0;
+                // var y = 5;
+                // var z = 15;
+                // var TeleCuerpo = new CANNON.Body({ mass: 1 });
+                // var TeleMalla = new THREE.Mesh( TeleGeometria, mate );
+                // TeleCuerpo.position.set(x,y,z);
+                // TeleMalla.position.set(x,y,z);
+                // TeleMalla.castShadow = true;
+                // TeleMalla.receiveShadow = true;
+                // TeleCuerpo.addShape(TeleForma);
+                // boxes.push(TeleCuerpo);
+                // boxMeshes.push(TeleMalla);
+                // // TeleMalla.rotation.x = 90*Math.PI/180;
+                // world.add(TeleCuerpo);
+                
+                // video = document.createElement('video');
+                // video.src = 'videos/Simpson.mp4';   
+                // video.muted = "muted";
+                // video.load();
+                // video.play();
+                // videoImage = document.createElement('canvas');
+                // videoImage.width = 632;
+                // videoImage.height = 256;
+                // videoImageContext = videoImage.getContext('2d');
+                // videoImageContext.fillStyle = '#0000FF';
+                // videoImageContext.fillRect(0,0,videoImage.width,videoImage.height);
+                // videotexture = new THREE.Texture(videoImage);
+                // videotexture.minFilter = THREE.LinearFilter;
+                // videotexture.magFilter = THREE.LinearFilter;
+                // var moviematerial = new THREE.MeshBasicMaterial({map:videotexture,
+                //                                                 side: THREE.DoubleSide});
+                // var movieGeometry = new THREE.PlaneGeometry(15,256/632*15);
+                // var videoShape = new CANNON.Plane();                
+                // var movie = new THREE.Mesh(movieGeometry,moviematerial);
+                // var movieCuerpo = new CANNON.Body({ mass: 1 });
+                // movie.rotation.y = 180* Math.PI/180;
+                // movie.position.set(0,5,14);
+                
+                
+                // movieCuerpo.position.set(0,5,14);
+                // movieCuerpo.addShape(videoShape);
+                // movieCuerpo.addShape(TeleForma, new CANNON.Vec3(0,15,15));
+                // world.add(movieCuerpo)
+                
+                // scene.add(TeleMalla)
+
+
+                // var telecuerpo = new CANNON.Body({ mass: 1 });
+                // telecuerpo.addShape(videoShape, new CANNON.Vec3(0,15,14));
+                // telecuerpo.addShape(TeleForma, new CANNON.Vec3(0,15,15));
+                // world.add(telecuerpo)
+                // boxMeshes.push(movie);
+
+
+                // // boxes.push(movieCuerpo);
+                // // world.add(movieCuerpo);
+                // scene.add(TeleMalla);
+                
+                // scene.add(movie);
+                
+                // boxes.push(telecuerpo);
 
 
 
@@ -461,6 +519,12 @@
             function animate() {
                 animacionMostro();
                 requestAnimationFrame( animate );
+
+                // if(video.readyState === video.HAVE_ENOUGH_DATA){
+                //     videoImageContext.drawImage(video,0,0);
+                //     if(videotexture) videotexture.needsUpdate = true;
+                // }
+
                 if(controls.enabled){
                     world.step(dt);
 
