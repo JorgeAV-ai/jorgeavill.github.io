@@ -41,23 +41,27 @@ function setCameras(ar){
 
 
 function init(){
+    // Renderer
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth,window.innerHeight);
     renderer.setClearColor(new THREE.Color(0x0000AA));
     renderer.autoClear = false;
     renderer.shadowMap.enabled = true;
     document.getElementById("contenedor").appendChild(renderer.domElement);
-
+    
+    // ------------Scene------------ 
     scene = new THREE.Scene();
 
+
+    //------------Cameras------------
     aspectRatio = window.innerWidth / window.innerHeight;
     setCameras(aspectRatio);
-
+    //-------------Control Camera-----------
     cameraControls = new THREE.OrbitControls( camera, renderer.domElement );
     cameraControls.noKeys = true;
     cameraControls.target.set( 0, 0, 0 );
 
-    // Luces
+    //----------Lights------------
 	var luzAmbiente = new THREE.AmbientLight(0xFFFFFF, 0.2);
 	scene.add( luzAmbiente );
 
@@ -74,17 +78,20 @@ function init(){
 	luzFocal.castShadow = true;
 	scene.add(luzFocal);
 
-    
+    // ------------EventsHandler---------------
     window.addEventListener('resize', updateAspectRatio );
     
 }
 
 function loadScene(){
 
+
+    // ------------Textures-------------
     var paredes = [ path+'posx.jpg',path+'negx.jpg',
-    path+'posy.jpg',path+'negy.jpg',
-    path+'posz.jpg',path+'negz.jpg'
-  ];
+        path+'posy.jpg',path+'negy.jpg',
+        path+'posz.jpg',path+'negz.jpg'
+    ];
+
     var mapaEntorno = new THREE.CubeTextureLoader().load(paredes);
     mapaEntorno.format = THREE.RGBFormat;
     var shader = THREE.ShaderLib.cube;
@@ -100,13 +107,16 @@ function loadScene(){
 
     esferamaterial = new THREE.MeshPhongMaterial({color:'white', specular:'white', shininess: 50, envMap:mapaEntorno });
 
+    // ----------Habitación---------------
 	var habitacion = new THREE.Mesh( new THREE.CubeGeometry(1000,1000,1000),matparedes);
 	scene.add(habitacion);
 
+
+    //------------INICIALIZACIÓN ROBOT------------------
     robot = new THREE.Object3D();
 
+    //---------PLANO--------
     var geometry = new THREE.PlaneGeometry( 1000,1000, 100,100 );
-    
     var texturaplano = new THREE.TextureLoader().load(path+'pisometalico_1024.jpg');
     texturaplano.magFilter = THREE.LinearFilter;
 	texturaplano.minFilter = THREE.LinearFilter;
@@ -118,6 +128,7 @@ function loadScene(){
     plane.rotation.x = -Math.PI/2;
     plane.receiveShadow=true;
 
+    //---------BASE--------------
     var texturacilindro = new THREE.TextureLoader().load(path+'metal_128x128.jpg');
     var materialCilindroLamb = new THREE.MeshLambertMaterial({ map:texturacilindro});
     var Cilindrogeometry = new THREE.CylinderGeometry( 50,50, 15,100 );
@@ -125,40 +136,37 @@ function loadScene(){
     base.castShadow=true;
     base.receiveShadow=true;
 
-    scene.add(plane);
 
-
-    // Brazo del robot
+    //-------BRAZO---------
     brazo = new THREE.Object3D();
     
-    
+        //-----------EJE--------
     var ejegeometry = new THREE.CylinderGeometry( 20,20, 18,100 );
-    // var ejematerial = new THREE.MeshBasicMaterial( {color:'red',wireframe:true} );
     var eje = new THREE.Mesh( ejegeometry, materialCilindroLamb );
     eje.rotation.z = 90*Math.PI /180;
     eje.rotation.y = 90*Math.PI /180;
     eje.receiveShadow = true;
     eje.castShadow = true;
 
-
+        //------------ESPÁRRAGO---------
     var esparragogeometry = new THREE.BoxGeometry( 18,120,12 ,100);
     var esparrago = new THREE.Mesh( esparragogeometry, materialCilindroLamb );
     esparrago.position.y = 48
     esparrago.receiveShadow = true;
     esparrago.castShadow = true;
 
-    // ambient=0xFF0000,color:0xFFFFFF,specular:0x222222,
+        //-------------RÓTULA----------
     var esferageometry = new THREE.SphereGeometry(20 , 32,32 )
-
     var esfera = new THREE.Mesh( esferageometry, esferamaterial );
     esfera.position.y = 110
     esfera.receiveShadow = true;
     esfera.castShadow = true;
 
     
-
+    //---------ANTEBRAZO-----------
     antebrazo = new THREE.Object3D();
 
+        //---------Disco-------------
     var discogeometry = new THREE.CylinderGeometry( 22,22, 6,100 );
     var texturamadera = new THREE.TextureLoader().load(path+'wood512.jpg');
     var discomaterial = new THREE.MeshLambertMaterial({map:texturamadera} );
@@ -169,7 +177,7 @@ function loadScene(){
     
                                                         
 
-
+        //--------Nervios---------
     nervios = new THREE.Object3D();
     var nerviosgeometry1 = new THREE.BoxGeometry( 4,80,4 ,100);
     var nerviosgeometry2 = new THREE.BoxGeometry( 4,80,4 ,100);
@@ -208,6 +216,7 @@ function loadScene(){
     nervios.add(nerviosgeometry3);
     nervios.add(nerviosgeometry4);
     
+    //--------------MANO---------
     var manogeometry = new THREE.CylinderGeometry( 15,15, 40,100 );
     var manomaterial = new THREE.MeshLambertMaterial({map:texturamadera} );
     mano = new THREE.Mesh( manogeometry, manomaterial );
@@ -217,7 +226,7 @@ function loadScene(){
     mano.lookAt(new THREE.Vector3(1,0,0))
 
     
-    //pinzas izquierda y derecha
+    //------------PINZAS----------
     var geom = new THREE.Geometry();
     
     geom.vertices.push(
@@ -282,8 +291,6 @@ function loadScene(){
         new THREE.Face3(8,9,13),
         new THREE.Face3(8,13,12)
     );
-    
-
     geom.computeFaceNormals()
     var matPinza = new THREE.MeshLambertMaterial({
         color:0xA9A9A9,
@@ -306,7 +313,7 @@ function loadScene(){
     pinzaIZQ.receiveShadow=true;
     
 
-
+    //------JUNTAR_PIEZAS---------
     robot.add(base);
     brazo.add(eje);
     brazo.add(esparrago);
@@ -321,11 +328,8 @@ function loadScene(){
     mano.add(pinzaIZQ)
     mano.add(pinzaDER)
 
+    scene.add(plane);
     scene.add(robot)
-
-
-
-
     
 }
 
