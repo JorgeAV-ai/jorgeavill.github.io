@@ -118,7 +118,6 @@
                     instructions.style.display = '';
                 }
 
-                // Hook pointer lock state change events
                 document.addEventListener( 'pointerlockchange', pointerlockchange, false );
                 document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
                 document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
@@ -130,7 +129,6 @@
                 instructions.addEventListener( 'click', function ( event ) {
                     instructions.style.display = 'none';
 
-                    // Ask the browser to lock the pointer
                     element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 
                     if ( /Firefox/i.test( navigator.userAgent ) ) {
@@ -447,76 +445,6 @@
                 var habitacion = new THREE.Mesh( new THREE.CubeGeometry(1000,1000,1000),matparedes);
                 scene.add(habitacion);
 
-
-                //------TV + Película---------
-                // tamaño = new CANNON.Vec3(15/2,256/632*15/2,1/2);
-                // var TeleForma = new CANNON.Box(tamaño);
-                // var TeleGeometria = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
-                // var x = 0;
-                // var y = 5;
-                // var z = 15;
-                // var TeleCuerpo = new CANNON.Body({ mass: 1 });
-                // var TeleMalla = new THREE.Mesh( TeleGeometria, mate );
-                // TeleCuerpo.position.set(x,y,z);
-                // TeleMalla.position.set(x,y,z);
-                // TeleMalla.castShadow = true;
-                // TeleMalla.receiveShadow = true;
-                // TeleCuerpo.addShape(TeleForma);
-                // boxes.push(TeleCuerpo);
-                // boxMeshes.push(TeleMalla);
-                // // TeleMalla.rotation.x = 90*Math.PI/180;
-                // world.add(TeleCuerpo);
-                
-                // video = document.createElement('video');
-                // video.src = 'videos/Simpson.mp4';   
-                // video.muted = "muted";
-                // video.load();
-                // video.play();
-                // videoImage = document.createElement('canvas');
-                // videoImage.width = 632;
-                // videoImage.height = 256;
-                // videoImageContext = videoImage.getContext('2d');
-                // videoImageContext.fillStyle = '#0000FF';
-                // videoImageContext.fillRect(0,0,videoImage.width,videoImage.height);
-                // videotexture = new THREE.Texture(videoImage);
-                // videotexture.minFilter = THREE.LinearFilter;
-                // videotexture.magFilter = THREE.LinearFilter;
-                // var moviematerial = new THREE.MeshBasicMaterial({map:videotexture,
-                //                                                 side: THREE.DoubleSide});
-                // var movieGeometry = new THREE.PlaneGeometry(15,256/632*15);
-                // var videoShape = new CANNON.Plane();                
-                // var movie = new THREE.Mesh(movieGeometry,moviematerial);
-                // var movieCuerpo = new CANNON.Body({ mass: 1 });
-                // movie.rotation.y = 180* Math.PI/180;
-                // movie.position.set(0,5,14);
-                
-                
-                // movieCuerpo.position.set(0,5,14);
-                // movieCuerpo.addShape(videoShape);
-                // movieCuerpo.addShape(TeleForma, new CANNON.Vec3(0,15,15));
-                // world.add(movieCuerpo)
-                
-                // scene.add(TeleMalla)
-
-
-                // var telecuerpo = new CANNON.Body({ mass: 1 });
-                // telecuerpo.addShape(videoShape, new CANNON.Vec3(0,15,14));
-                // telecuerpo.addShape(TeleForma, new CANNON.Vec3(0,15,15));
-                // world.add(telecuerpo)
-                // boxMeshes.push(movie);
-
-
-                // // boxes.push(movieCuerpo);
-                // // world.add(movieCuerpo);
-                // scene.add(TeleMalla);
-                
-                // scene.add(movie);
-                
-                // boxes.push(telecuerpo);
-
-
-
-
             }
 
 
@@ -530,11 +458,6 @@
             var dt = 1/60;
             function animate() {
                 requestAnimationFrame( animate );
-
-                // if(video.readyState === video.HAVE_ENOUGH_DATA){
-                //     videoImageContext.drawImage(video,0,0);
-                //     if(videotexture) videotexture.needsUpdate = true;
-                // }
 
                 if(controls.enabled){
                     world.step(dt);
