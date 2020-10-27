@@ -24,7 +24,7 @@ render();
 function setCameras(ar){
     var origen = new THREE.Vector3(0,0,0);
     // Perspectiva
-    camera = new THREE.PerspectiveCamera( 75, ar, 0.1, 700 );
+    camera = new THREE.PerspectiveCamera( 75, ar, 0.1, 1000 );
 	camera.position.set(0.5,300,300);
     camera.lookAt(new THREE.Vector3(0,60,0));
 
@@ -309,8 +309,8 @@ function loadScene(){
     pinzaDER.rotation.x = 90 * Math.PI/180
     pinzaDER.castShadow=true;
     pinzaIZQ.castShadow=true;
-    pinzaDER.receiveShadow=true;
-    pinzaIZQ.receiveShadow=true;
+    // pinzaDER.receiveShadow=true;
+    // pinzaIZQ.receiveShadow=true;
     
 
     //------JUNTAR_PIEZAS---------
@@ -363,18 +363,18 @@ function keyboardmove(){
     renderer.domElement.focus();
     updateFcts.push(function(delta, now){
 		if( keyboard.pressed('left') ){
-            planta.position.x -= Speed; 
+            // planta.position.x -= Speed; 
 			robot.position.x -= Speed;			
 		}else if( keyboard.pressed('right') ){
             robot.position.x += Speed;
-            planta.position.x += Speed;
+            // planta.position.x += Speed;
 		}
 		if( keyboard.pressed('down') ){
             robot.position.z += Speed;
-            planta.position.z += Speed;		
+            // planta.position.z += Speed;		
 		}else if( keyboard.pressed('up') ){
             robot.position.z -= Speed;
-            planta.position.z -= Speed;		
+            // planta.position.z -= Speed;		
 		}
     })
     
