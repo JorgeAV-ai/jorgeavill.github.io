@@ -229,7 +229,6 @@ function init() {
         //----------Cilindro Trampolín---------
     var texturamadera = new THREE.TextureLoader().load(path+'barril.jpg');
     var materialmadera = new THREE.MeshLambertMaterial({map:texturamadera} );
-
     size = 2;
     var cylinderShape = new CANNON.Cylinder(size,size,3*size,100);
     var q = new CANNON.Quaternion();
@@ -271,6 +270,72 @@ function init() {
         }
     }
 
+    // ----------------Caja_Libre----------
+    var cajageom = new THREE.BoxGeometry(size*2,size*2,size*2);
+    var caja = new THREE.Mesh(cajageom,matcubo);
+    caja.castShadow = true;
+    caja.receiveShadow = true;
+    var boxbody = new CANNON.Body({ mass: 1 });
+    boxbody.addShape(convexShape);
+    boxbody.position.set(-20+2*size+0.01,2*size + size*1.2,-15);
+    world.add(boxbody);
+    scene.add(caja);
+    boxes.push(boxbody);
+    boxMeshes.push(caja);
+
+    // ----------------Caja_Libre----------
+    var cajageom = new THREE.BoxGeometry(size*2,size*2,size*2);
+    var caja = new THREE.Mesh(cajageom,matcubo);
+    caja.castShadow = true;
+    caja.receiveShadow = true;
+    var boxbody = new CANNON.Body({ mass: 1 });
+    boxbody.addShape(convexShape);
+    boxbody.position.set(-20+2*size+0.01,2*size + size*1.2,5);
+    world.add(boxbody);
+    scene.add(caja);
+    boxes.push(boxbody);
+    boxMeshes.push(caja);
+
+
+    //-------------Cilindros Libres--------------
+    var texturamadera = new THREE.TextureLoader().load(path+'barril.jpg');
+    var materialmadera = new THREE.MeshLambertMaterial({map:texturamadera} );
+    size = 2;
+    var cylinderShape = new CANNON.Cylinder(size,size,3*size,100);
+    var q = new CANNON.Quaternion();
+    q.setFromAxisAngle(new CANNON.Vec3(1,0,0),Math.PI / 2);
+    var cylindergeometry = new THREE.CylinderGeometry(size,size,2*size,64);
+    var cilindro = new THREE.Mesh( cylindergeometry, materialmadera );
+    cylinderShape.transformAllPoints(new CANNON.Vec3(),q);
+    var cylinderBody = new CANNON.Body({ mass: 1 });
+    cylinderBody.quaternion.setFromEuler(0,90*Math.PI/180,90*Math.PI/180);
+    cylinderBody.addShape(cylinderShape);
+    cylinderBody.position.set(5,2,10);
+    world.add(cylinderBody);
+    scene.add(cilindro);
+    boxes.push(cylinderBody);
+    boxMeshes.push(cilindro);
+
+
+    //-------------Cilindros Libres--------------
+    var texturamadera = new THREE.TextureLoader().load(path+'barril.jpg');
+    var materialmadera = new THREE.MeshLambertMaterial({map:texturamadera} );
+    size = 2;
+    var cylinderShape = new CANNON.Cylinder(size,size,3*size,100);
+    var q = new CANNON.Quaternion();
+    q.setFromAxisAngle(new CANNON.Vec3(1,0,0),Math.PI / 2);
+    var cylindergeometry = new THREE.CylinderGeometry(size,size,2*size,64);
+    var cilindro = new THREE.Mesh( cylindergeometry, materialmadera );
+    cylinderShape.transformAllPoints(new CANNON.Vec3(),q);
+    var cylinderBody = new CANNON.Body({ mass: 1 });
+    cylinderBody.quaternion.setFromEuler(0,90*Math.PI/180,90*Math.PI/180);
+    cylinderBody.addShape(cylinderShape);
+    cylinderBody.position.set(-20,2,-10);
+    world.add(cylinderBody);
+    scene.add(cilindro);
+    boxes.push(cylinderBody);
+    boxMeshes.push(cilindro);
+
 
     //------------Muros---------------
     tamaño = new CANNON.Vec3(30,5,3);
@@ -278,9 +343,9 @@ function init() {
     var boxForma = new CANNON.Box(tamaño);
     var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
     var x = 0;
-    var y = 7;
+    var y = 5;
     var z = -20;
-    var boxCuerpo = new CANNON.Body({ mass: 1 });
+    var boxCuerpo = new CANNON.Body({ mass: 0 });
     var texturapared = new THREE.TextureLoader().load(path+'wall2.jpg');
     var materialpared = new THREE.MeshLambertMaterial({map:texturapared} );
     var boxMalla = new THREE.Mesh( boxGeom, materialpared );
@@ -294,10 +359,15 @@ function init() {
     boxes.push(boxCuerpo);
     boxMeshes.push(boxMalla);
     
-    var x = -32;
-    var y = 7;
-    var z = 13;
-    var boxCuerpo = new CANNON.Body({ mass: 1 });
+
+    // izquierda
+    tamaño = new CANNON.Vec3(20,5,3);
+    var boxForma = new CANNON.Box(tamaño);
+    var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
+    var x = -29;
+    var y = 5;
+    var z = 0;
+    var boxCuerpo = new CANNON.Body({ mass: 0 });
     var boxMalla = new THREE.Mesh( boxGeom, materialpared );
     boxCuerpo.quaternion.setFromEuler(0,-90*Math.PI/180,0);
     boxMalla.rotation.y = -90*Math.PI/ 180;
@@ -311,10 +381,11 @@ function init() {
     boxes.push(boxCuerpo);
     boxMeshes.push(boxMalla);
 
-    var x = 32;
-    var y = 7;
-    var z = 13;
-    var boxCuerpo = new CANNON.Body({ mass: 1 });
+
+    var x = 20;
+    var y = 5;
+    var z = 0;
+    var boxCuerpo = new CANNON.Body({ mass:0 });
     var boxMalla = new THREE.Mesh( boxGeom, materialpared );
     boxCuerpo.quaternion.setFromEuler(0,-90*Math.PI/180,0);
     boxMalla.rotation.y = -90*Math.PI/ 180;
@@ -332,9 +403,9 @@ function init() {
     var boxForma = new CANNON.Box(tamaño);
     var boxGeom = new THREE.BoxGeometry(tamaño.x*2,tamaño.y*2,tamaño.z*2);
     var x = 0;
-    var y = 7;
+    var y = 5;
     var z = 20;
-    var boxCuerpo = new CANNON.Body({ mass: 1 });
+    var boxCuerpo = new CANNON.Body({ mass: 0 });
     var boxMalla = new THREE.Mesh( boxGeom, materialpared );
     world.add(boxCuerpo);
     scene.add(boxMalla);
